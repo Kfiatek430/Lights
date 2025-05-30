@@ -1,8 +1,15 @@
 import ThemeSwitcher from "@/components/layout/ThemeSwitcher";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { MenuIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Button, buttonVariants } from "../ui/button";
+import { MenuIcon, X } from "lucide-react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
 interface LinkType {
   name: string;
@@ -53,7 +60,17 @@ const Navbar = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="md:hidden">
-            <SheetTitle className="flex justify-center py-3">Menu</SheetTitle>
+            <SheetHeader className="flex flex-row justify-between items-center">
+              <SheetTitle className="text-xl text-center">Wiosenna</SheetTitle>
+              <SheetClose
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "icon",
+                })}
+              >
+                <X />
+              </SheetClose>
+            </SheetHeader>
             <div className="flex flex-col">
               {links.map((link: LinkType) => (
                 <Button key={link.name} asChild variant="ghost">
