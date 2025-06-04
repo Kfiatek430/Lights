@@ -23,17 +23,17 @@ export default function Home() {
     motionValue: 0,
     motionChangeTimestamp: 1748446764011,
     pattern: 0,
-    minValue3b: 0,
-    maxValue3b: 0,
+    minValue3b: 1,
+    maxValue3b: 5,
     minValue3bReq: 0,
     maxValue3bReq: 0,
     lines: [
       {
         id: 0,
         value3bReq: 0,
-        value3b: 0,
-        value8b: 0,
-        value16b: 0,
+        value3b: 1,
+        value8b: 10,
+        value16b: 100,
       },
       {
         id: 1,
