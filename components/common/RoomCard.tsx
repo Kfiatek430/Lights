@@ -1,5 +1,7 @@
+"use client";
+
 import { Room } from "@/types/room";
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -26,15 +28,15 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
   }, [room.onLine]);
 
   return (
-    <Card className="w-full">
+    <Card className="w-full gap-10">
       <CardHeader>
-        <CardTitle className="w-full flex justify-between items-center">
+        <CardTitle className="w-full flex justify-between items-center text-xl">
           {room.info.name} {IsOnline}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col justify-center items-center gap-10 py-5">
+      <CardContent className="flex flex-col justify-center items-center gap-10">
         <div className="w-full flex flex-col gap-3">
-          <h4>Przyciski sterowania</h4>
+          <h4 className="font-semibold text-lg">Przyciski sterowania</h4>
           <div className="w-full flex flex-row justify-center gap-3 text-xs">
             <Button
               variant="destructive"
@@ -57,8 +59,15 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
           </div>
         </div>
         <div className="w-full flex flex-col items-end gap-3">
-          <h4 className="w-full text-start">Pomiar Jasności</h4>
-          <Slider value={[0]} max={7} className="w-[95%]" staticThumb={4} />
+          <h4 className="w-full text-start font-semibold text-lg">
+            Pomiar Jasności
+          </h4>
+          <Slider
+            value={[room.maxValue3b]}
+            max={7}
+            staticThumb={room.minValue3b}
+            disabled={true}
+          />
         </div>
       </CardContent>
       <CardFooter className="w-full flex flex-row justify-end items-end gap-3">
