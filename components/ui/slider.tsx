@@ -7,25 +7,27 @@ import { cn } from "@/lib/utils";
 
 interface SliderProps {
   value: number[];
+  onValueChange?: (value: number[]) => void;
   min?: number;
   max?: number;
   step?: number;
   className?: string;
   staticThumb?: number;
+  disabled?: boolean;
 }
 
 export default function Slider({
   value,
+  onValueChange,
   min = 0,
   max = 100,
   step = 1,
   className,
   staticThumb,
+  disabled,
 }: SliderProps) {
-  const [progress, setProgress] = React.useState(value);
-
   const handleValueChange = (newValues: number[]) => {
-    setProgress(newValues);
+    onValueChange?.(newValues);
   };
 
   const staticThumbPosition =
@@ -39,11 +41,11 @@ export default function Slider({
         <Badge
           className="absolute w-6 flex justify-center items-center"
           style={{
-            left: `calc(${(progress[0] / max) * 100}% - 13px)`,
+            left: `calc(${(value[0] / max) * 100}% - 13px)`,
             bottom: "0px",
           }}
         >
-          <span>{progress[0]}</span>
+          <span>{value[0]}</span>
         </Badge>
 
         {staticThumb !== undefined && (
@@ -60,21 +62,25 @@ export default function Slider({
       </div>
 
       <SliderPrimitive.Root
-        value={progress}
+        value={value}
         min={min}
         max={max}
         step={step}
         onValueChange={handleValueChange}
         className="relative flex w-full touch-none select-none items-center"
+        disabled={disabled}
       >
         <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/20">
           <SliderPrimitive.Range className="absolute h-full bg-primary" />
         </SliderPrimitive.Track>
 
         <div
-          className="absolute block h-4 w-4 rounded-full border border-primary/50 bg-background shadow pointer-events-auto z-10 cursor-pointer"
+          className={cn(
+            "absolute block h-4 w-4 rounded-full border border-primary/50 bg-background shadow pointer-events-auto z-10",
+            disabled ? "" : "cursor-pointer"
+          )}
           style={{
-            left: `calc(${(progress[0] / max) * 100}% - 9px)`,
+            left: `calc(${(value[0] / max) * 100}% - 9px)`,
           }}
         ></div>
 
