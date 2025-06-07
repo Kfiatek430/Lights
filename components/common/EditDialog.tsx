@@ -81,7 +81,7 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
       </DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="max-h-[90%] flex flex-col overflow-y-auto"
+        className="max-h-[90%] flex flex-col overflow-y-auto max-w-[95%] lg:max-w-5xl"
       >
         <DialogHeader className="-mt-3 -mx-6 border-b pb-3 px-6 flex flex-row justify-between items-center">
           <DialogTitle className="text-xl">{room.info.name}</DialogTitle>
@@ -100,61 +100,64 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
             <X />
           </DialogPrimitive.Close>
         </DialogHeader>
-
-        <div className="flex flex-col justify-center items-center gap-8">
-          <div className="w-full flex flex-col gap-3">
-            <h4 className="font-semibold text-lg">Przyciski sterowania</h4>
-            <div className="w-full flex flex-row justify-center gap-3 text-xs">
-              <Button
-                variant="destructive"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <LightbulbOff />
-                <p>Wyłącz</p>
-              </Button>
-              <Button
-                variant="blue"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <Pointer />
-                <p>Przyciski</p>
-              </Button>
-              <Button
-                variant="success"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <Lightbulb />
-                Włącz
-              </Button>
+        <div className="flex flex-col lg:flex-row justify-center items-start gap-4 lg:gap-12">
+          <div className="w-full lg:w-1/2 flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-3">
+              <h4 className="font-semibold text-lg">Przyciski sterowania</h4>
+              <div className="w-full flex flex-row justify-center gap-3 text-xs">
+                <Button
+                  variant="destructive"
+                  className="flex-1 h-fit flex flex-col gap-2"
+                >
+                  <LightbulbOff />
+                  <p>Wyłącz</p>
+                </Button>
+                <Button
+                  variant="blue"
+                  className="flex-1 h-fit flex flex-col gap-2"
+                >
+                  <Pointer />
+                  <p>Przyciski</p>
+                </Button>
+                <Button
+                  variant="success"
+                  className="flex-1 h-fit flex flex-col gap-2"
+                >
+                  <Lightbulb />
+                  Włącz
+                </Button>
+              </div>
+            </div>
+            <Separator />
+            <div className="w-full flex flex-col items-end gap-3">
+              <h4 className="w-full text-start font-semibold text-lg">
+                Pomiar Jasności
+              </h4>
+              <Slider
+                value={maxValue3b}
+                onValueChange={handleChangeMainValue}
+                max={7}
+                staticThumb={minValue3b}
+              />
+            </div>
+            <Separator />
+            <div className="w-full flex flex-col items-center gap-3">
+              <h4 className="font-semibold text-lg w-full text-start">
+                Wzorzec oświetlenia
+              </h4>
+              <Combobox
+                value={pattern}
+                setValue={setPattern}
+                values={PATTERN_OPTIONS}
+                searchLabel="Search pattern..."
+                notFoundLabel="Pattern not found."
+              />
             </div>
           </div>
-          <Separator />
-          <div className="w-full flex flex-col items-end gap-3">
-            <h4 className="w-full text-start font-semibold text-lg">
-              Pomiar Jasności
-            </h4>
-            <Slider
-              value={maxValue3b}
-              onValueChange={handleChangeMainValue}
-              max={7}
-              staticThumb={minValue3b}
-            />
-          </div>
-          <Separator />
-          <div className="w-full flex flex-col items-center gap-3">
-            <h4 className="font-semibold text-lg w-full text-start">
-              Wzorzec oświetlenia
-            </h4>
-            <Combobox
-              value={pattern}
-              setValue={setPattern}
-              values={PATTERN_OPTIONS}
-              searchLabel="Search pattern..."
-              notFoundLabel="Pattern not found."
-            />
-          </div>
-          <Separator />
-          <div className="w-full flex flex-col items-center gap-3">
+
+          <Separator className="lg:hidden" />
+
+          <div className="w-full lg:w-1/2 flex flex-col items-center gap-3">
             <h4 className="font-semibold text-lg w-full text-start">
               Punkty świetlne
             </h4>
@@ -165,7 +168,7 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
               searchLabel="Search mode..."
               notFoundLabel="Mode not found."
             />
-            <div className="w-full flex flex-col justify-center items-center gap-3">
+            <div className="w-full flex flex-col justify-center items-center gap-3 lg:gap-4">
               {room.lines.map((line, index) => (
                 <React.Fragment key={index}>
                   <LineEditComponent
