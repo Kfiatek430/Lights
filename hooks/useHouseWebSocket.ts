@@ -3,7 +3,7 @@
 import { Client } from "@stomp/stompjs";
 import { useEffect } from "react";
 
-export function useRoomsWebSocket(onMessage: Function) {
+export function useHouseWebSocket(onMessage: Function) {
   useEffect(() => {
     const client = new Client({
       brokerURL: `${process.env.NEXT_PUBLIC_SERVER_URL}/houseWS`,
