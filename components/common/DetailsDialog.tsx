@@ -12,7 +12,7 @@ import { Lightbulb, LightbulbOff, Pointer, X } from "lucide-react";
 import Slider from "../ui/slider";
 import { FC } from "react";
 import React from "react";
-import { Room } from "@/types/room";
+import { Room } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import LineViewComponent from "./LineViewComponent";
 import { cn } from "@/lib/utils";
@@ -28,7 +28,10 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
       <DialogTrigger asChild>
         <Button variant="outline">Szczegóły</Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent
+        showCloseButton={false}
+        className="max-h-[90%] flex flex-col overflow-y-auto"
+      >
         <DialogHeader className="-mt-3 -mx-6 border-b pb-3 px-6 flex flex-row justify-between items-center">
           <DialogTitle className="text-xl">{room.info.name}</DialogTitle>
           <DialogDescription className="sr-only">

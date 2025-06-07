@@ -1,7 +1,7 @@
 "use client";
 
-import { Room } from "@/types/room";
-import React, { FC, useMemo, useState } from "react";
+import { Room } from "@/types";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -16,6 +16,7 @@ import { Button } from "../ui/button";
 import { Lightbulb, LightbulbOff, Pointer } from "lucide-react";
 import DetailsDialog from "./DetailsDialog";
 import EditDialog from "./EditDialog";
+import { cn } from "@/lib/utils";
 
 interface RoomCardProps {
   room: Room;
@@ -23,12 +24,34 @@ interface RoomCardProps {
 
 const RoomCard: FC<RoomCardProps> = ({ room }) => {
   const IsOnline = useMemo(() => {
-    if (room.onLine === true) return <OnlineBadge />;
+    if (room.online === true) return <OnlineBadge />;
     return <OfflineBadge />;
-  }, [room.onLine]);
+  }, [room.online]);
+
+  const [displayMotion, setDisplayMotion] = useState(room.motion);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (room.motion) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      setDisplayMotion(true);
+
+      timeoutRef.current = setTimeout(() => {
+        setDisplayMotion(false);
+      }, 60000);
+    }
+  }, [room.motion]);
 
   return (
-    <Card className="w-full gap-10">
+    <Card
+      className={cn(
+        "w-full gap-10",
+        displayMotion ? "shadow-[0px_0px_10px_5px_#48bb78]" : ""
+      )}
+    >
       <CardHeader>
         <CardTitle className="w-full flex justify-between items-center text-xl">
           {room.info.name} {IsOnline}

@@ -1,7 +1,6 @@
-import { Line } from "@/types/room";
+import { Line, Mode } from "@/types";
 import React, { FC, useEffect, useState } from "react";
 import Slider from "../ui/slider";
-import type { Mode } from "@/lib/constants";
 
 interface LineEditComponentProps {
   line: Line;
@@ -25,11 +24,11 @@ const LineEditComponent: FC<LineEditComponentProps> = ({
         break;
       case "8b":
         setValue([line.value8b]);
-        setMax(127);
+        setMax(255);
         break;
       case "16b":
         setValue([line.value16b]);
-        setMax(255);
+        setMax(65535);
         break;
     }
   }, [line, mode]);

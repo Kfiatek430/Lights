@@ -1,4 +1,4 @@
-import { Line } from "@/types/room";
+import { Line } from "@/types";
 import React, { FC } from "react";
 
 interface LineViewComponentProps {

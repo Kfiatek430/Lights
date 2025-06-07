@@ -12,25 +12,62 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Lightbulb, LightbulbOff, Pointer, X } from "lucide-react";
 import Slider from "../ui/slider";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import React from "react";
-import { Room } from "@/types/room";
+import { Room, Mode, Pattern } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { MODE_OPTIONS, Pattern, PATTERN_OPTIONS } from "@/lib/constants";
+import { PATTERNS } from "@/lib/constants";
 import LineEditComponent from "./LineEditComponent";
 import { Combobox } from "../ui/combobox";
-import type { Mode } from "@/lib/constants";
 
 interface DetailsDialogProps {
   room: Room;
 }
+
+const PATTERN_OPTIONS = [
+  {
+    value: "Zimny",
+    label: "Zimny",
+  },
+  {
+    value: "Neutralny",
+    label: "Neutralny",
+  },
+  {
+    value: "Ciepły",
+    label: "Ciepły",
+  },
+  {
+    value: "Relaks",
+    label: "Relaks",
+  },
+] as const;
+
+const MODE_OPTIONS = [
+  {
+    value: "3b",
+    label: "3-bit",
+  },
+  {
+    value: "8b",
+    label: "8-bit",
+  },
+  {
+    value: "16b",
+    label: "16-bit",
+  },
+] as const;
 
 const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
   const [maxValue3b, setMaxValue3b] = useState([room.maxValue3b]);
   const [minValue3b, setMinValue3b] = useState(room.minValue3b);
   const [mode, setMode] = useState<Mode>("3b");
   const [pattern, setPattern] = useState<Pattern>("Zimny");
+
+  useEffect(() => {
+    setPattern(PATTERNS[room.pattern]);
+  });
 
   const handleChangeMainValue = (newValues: number[]) => {
     setMaxValue3b(newValues);
@@ -42,7 +79,10 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
       <DialogTrigger asChild>
         <Button variant="outline">Edytuj</Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent
+        showCloseButton={false}
+        className="max-h-[90%] flex flex-col overflow-y-auto"
+      >
         <DialogHeader className="-mt-3 -mx-6 border-b pb-3 px-6 flex flex-row justify-between items-center">
           <DialogTitle className="text-xl">{room.info.name}</DialogTitle>
           <DialogDescription className="sr-only">
