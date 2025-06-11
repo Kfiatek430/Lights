@@ -59,7 +59,7 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
       </CardHeader>
       <CardContent className="flex flex-col justify-center items-center gap-10">
         <div className="w-full flex flex-col gap-3">
-          <h4 className="font-semibold text-lg">Przyciski sterowania</h4>
+          {/* <h4 className="font-semibold text-lg">Przyciski sterowania</h4> */}
           <div className="w-full flex flex-row justify-center gap-3 text-xs">
             <Button
               variant="destructive"
@@ -82,9 +82,9 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
           </div>
         </div>
         <div className="w-full flex flex-col items-end gap-3">
-          <h4 className="w-full text-start font-semibold text-lg">
+          {/* <h4 className="w-full text-start font-semibold text-lg">
             Pomiar Jasności
-          </h4>
+          </h4> */}
           <Slider
             value={[room.maxValue3b]}
             max={7}
