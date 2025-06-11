@@ -39,7 +39,7 @@ export default function Slider({
     >
       <div className="h-5 w-full relative mb-2">
         <Badge
-          className="absolute w-6 flex justify-center items-center"
+          className="absolute flex justify-center items-center"
           style={{
             left: `calc(${(value[0] / max) * 100}% - 13px)`,
             bottom: "0px",
