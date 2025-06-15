@@ -10,7 +10,7 @@ const RoomsContainer = ({ data }: { data: House }) => {
   const [house, setHouse] = useState<House>(data);
 
   useHouseWebSocket((updatedData: House) => {
-    setHouse(mergeObjects(updatedData, house));
+    setHouse((prevHouse) => mergeObjects(updatedData, prevHouse));
   });
 
   return (

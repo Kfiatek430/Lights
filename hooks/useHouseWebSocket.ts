@@ -16,5 +16,9 @@ export function useHouseWebSocket(onMessage: Function) {
     });
 
     client.activate();
-  });
+
+    return () => {
+      client.deactivate();
+    };
+  }, []);
 }
