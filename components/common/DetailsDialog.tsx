@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import LineViewComponent from "./LineViewComponent";
 import { cn } from "@/lib/utils";
 import { PATTERNS } from "@/lib/constants";
+import PowerButtons from "./PowerButtons";
 
 interface DetailsDialogProps {
   room: Room;
@@ -51,29 +52,7 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
         </DialogHeader>
         <div className="flex flex-col lg:flex-row justify-center items-start gap-4 lg:gap-12 px-6">
           <div className="w-full lg:w-1/3 min-h-full flex flex-col gap-4 lg:gap-8">
-            <div className="w-full flex flex-row justify-center gap-3 text-xs">
-              <Button
-                variant="destructive"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <LightbulbOff />
-                <p>Wyłącz</p>
-              </Button>
-              <Button
-                variant="blue"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <Pointer />
-                <p>Przyciski</p>
-              </Button>
-              <Button
-                variant="success"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <Lightbulb />
-                Włącz
-              </Button>
-            </div>
+            <PowerButtons roomId={room.id} />
             <Separator />
             <Slider
               value={[room.maxValue3b]}

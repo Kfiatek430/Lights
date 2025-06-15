@@ -10,39 +10,28 @@ import {
 } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Lightbulb, LightbulbOff, Pointer, X } from "lucide-react";
+import { X } from "lucide-react";
 import Slider from "../ui/slider";
 import { FC, useEffect, useState } from "react";
 import React from "react";
 import { Room, Mode, Pattern } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { PATTERNS } from "@/lib/constants";
 import LineEditComponent from "./LineEditComponent";
 import { Combobox } from "../ui/combobox";
+import PowerButtons from "./PowerButtons";
+import { useSetRoomValue } from "@/hooks/useSetRoomValue";
+import { useSetRoomPattern } from "@/hooks/useSetRoomPattern";
+import { PATTERNS } from "@/lib/constants";
 
-interface DetailsDialogProps {
+interface EditDialogProps {
   room: Room;
 }
 
-const PATTERN_OPTIONS = [
-  {
-    value: "Zimny",
-    label: "Zimny",
-  },
-  {
-    value: "Neutralny",
-    label: "Neutralny",
-  },
-  {
-    value: "Ciepły",
-    label: "Ciepły",
-  },
-  {
-    value: "Relaks",
-    label: "Relaks",
-  },
-] as const;
+const PATTERN_OPTIONS = PATTERNS.map((pattern) => ({
+  value: pattern,
+  label: pattern,
+}));
 
 const MODE_OPTIONS = [
   {
@@ -59,20 +48,41 @@ const MODE_OPTIONS = [
   },
 ] as const;
 
-const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
+const EditDialog: FC<EditDialogProps> = ({ room }) => {
   const [maxValue3b, setMaxValue3b] = useState([room.maxValue3b]);
   const [minValue3b, setMinValue3b] = useState(room.minValue3b);
   const [mode, setMode] = useState<Mode>("3b");
-  const [pattern, setPattern] = useState<Pattern>("Zimny");
+  const [selectedPattern, setSelectedPattern] = useState<Pattern>(
+    PATTERNS[room.pattern]
+  );
 
-  useEffect(() => {
-    setPattern(PATTERNS[room.pattern]);
-  });
+  const setRoomValue = useSetRoomValue();
+  const setRoomPattern = useSetRoomPattern();
 
-  const handleChangeMainValue = (newValues: number[]) => {
+  const handleMainValueChange = (newValues: number[]) => {
+    setRoomValue.mutate({ roomId: room.id, value: newValues[0] });
     setMaxValue3b(newValues);
     setMinValue3b(newValues[0]);
   };
+
+  const handlePatternChange = (newPattern: Pattern) => {
+    setSelectedPattern(newPattern);
+    const patternIndex = PATTERNS.indexOf(newPattern);
+    setRoomPattern.mutate({ roomId: room.id, patternId: patternIndex });
+  };
+
+  useEffect(() => {
+    const roomPattern = PATTERNS[room.pattern];
+    setSelectedPattern(roomPattern);
+  }, [room.pattern]);
+
+  useEffect(() => {
+    setMinValue3b(room.minValue3b);
+  }, [room.minValue3b]);
+
+  useEffect(() => {
+    setMaxValue3b([room.maxValue3b]);
+  }, [room.maxValue3b]);
 
   return (
     <Dialog>
@@ -102,41 +112,19 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
         </DialogHeader>
         <div className="flex flex-col lg:flex-row justify-center items-start gap-4 lg:gap-12 px-6">
           <div className="w-full lg:w-1/3 min-h-full flex flex-col gap-4 lg:gap-8">
-            <div className="w-full flex flex-row justify-center gap-3 text-xs">
-              <Button
-                variant="destructive"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <LightbulbOff />
-                <p>Wyłącz</p>
-              </Button>
-              <Button
-                variant="blue"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <Pointer />
-                <p>Przyciski</p>
-              </Button>
-              <Button
-                variant="success"
-                className="flex-1 h-fit flex flex-col gap-2"
-              >
-                <Lightbulb />
-                Włącz
-              </Button>
-            </div>
+            <PowerButtons roomId={room.id} />
             <Separator />
             <Slider
               value={maxValue3b}
-              onValueChange={handleChangeMainValue}
+              onValueChange={handleMainValueChange}
               max={7}
               staticThumb={minValue3b}
             />
             <Separator />
             <div className="flex justify-center items-center">
               <Combobox
-                value={pattern}
-                setValue={setPattern}
+                value={selectedPattern}
+                setValue={handlePatternChange}
                 values={PATTERN_OPTIONS}
                 searchLabel="Search pattern..."
                 notFoundLabel="Pattern not found."
@@ -158,6 +146,7 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
               {room.lines.map((line, index) => (
                 <React.Fragment key={index}>
                   <LineEditComponent
+                    roomId={room.id}
                     line={line}
                     name={room.info.lineNames[index]}
                     mode={mode}
@@ -173,4 +162,4 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
   );
 };
 
-export default DetailsDialog;
+export default EditDialog;
