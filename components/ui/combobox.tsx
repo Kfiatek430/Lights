@@ -17,7 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 interface ComboboxValue<T extends string> {
   readonly value: T;
@@ -32,7 +32,7 @@ export function Combobox<T extends string>({
   notFoundLabel,
 }: {
   value: T;
-  setValue: Dispatch<SetStateAction<T>>;
+  setValue: (value: T) => void;
   values: readonly ComboboxValue<T>[];
   searchLabel: string;
   notFoundLabel: string;

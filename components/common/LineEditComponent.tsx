@@ -1,14 +1,17 @@
 import { Line, Mode } from "@/types";
 import React, { FC, useEffect, useState } from "react";
 import Slider from "../ui/slider";
+import { useSetLineValue } from "@/hooks/useSetLineValue";
 
 interface LineEditComponentProps {
+  roomId: number;
   line: Line;
   name: string;
   mode: Mode;
 }
 
 const LineEditComponent: FC<LineEditComponentProps> = ({
+  roomId,
   line,
   name,
   mode,
@@ -33,12 +36,24 @@ const LineEditComponent: FC<LineEditComponentProps> = ({
     }
   }, [line, mode]);
 
+  const setLineValue = useSetLineValue();
+
+  const handleChangeValue = (newValue: number[]) => {
+    setLineValue.mutate({
+      roomId: roomId,
+      lineId: line.id,
+      mode: mode,
+      value: newValue[0],
+    });
+    setValue(newValue);
+  };
+
   return (
     <div className="flex flex-row justify-between items-center w-full">
       <p>{name}</p>
       <Slider
         value={value}
-        onValueChange={setValue}
+        onValueChange={handleChangeValue}
         max={max}
         className="w-1/2"
       />
