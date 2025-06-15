@@ -1,6 +1,5 @@
 import { PATTERNS } from "@/lib/constants";
 
-// Line and Room related types
 export interface Line {
   id: number;
   value3bReq: number;
@@ -34,7 +33,6 @@ export interface Room {
   lines: Line[];
 }
 
-// House type
 export interface House {
   maxValue3b: number;
   minValue3b: number;
@@ -46,6 +44,5 @@ export interface House {
   uartStatus: string;
 }
 
-// Mode and Pattern types
 export type Mode = "3b" | "8b" | "16b";
 export type Pattern = (typeof PATTERNS)[number];
