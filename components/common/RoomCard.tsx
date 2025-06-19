@@ -15,7 +15,7 @@ import OfflineBadge from "./OfflineBadge";
 import DetailsDialog from "./DetailsDialog";
 import EditDialog from "./EditDialog";
 import { cn } from "@/lib/utils";
-import PowerButtons from "./PowerButtons";
+import RoomPowerButtons from "./RoomPowerButtons";
 
 interface RoomCardProps {
   room: Room;
@@ -57,7 +57,7 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col justify-center items-center gap-10">
-        <PowerButtons roomId={room.id} />
+        <RoomPowerButtons roomId={room.id} />
         <Slider
           value={[room.maxValue3b]}
           max={7}

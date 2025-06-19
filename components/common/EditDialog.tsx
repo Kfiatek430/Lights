@@ -19,7 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import LineEditComponent from "./LineEditComponent";
 import { Combobox } from "../ui/combobox";
-import PowerButtons from "./PowerButtons";
+import RoomPowerButtons from "./RoomPowerButtons";
 import { useSetRoomValue } from "@/hooks/useSetRoomValue";
 import { useSetRoomPattern } from "@/hooks/useSetRoomPattern";
 import { PATTERNS } from "@/lib/constants";
@@ -112,7 +112,7 @@ const EditDialog: FC<EditDialogProps> = ({ room }) => {
         </DialogHeader>
         <div className="flex flex-col lg:flex-row justify-center items-start gap-4 lg:gap-12 px-6">
           <div className="w-full lg:w-1/3 min-h-full flex flex-col gap-4 lg:gap-8">
-            <PowerButtons roomId={room.id} />
+            <RoomPowerButtons roomId={room.id} />
             <Separator />
             <Slider
               value={maxValue3b}

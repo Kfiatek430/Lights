@@ -4,11 +4,11 @@ import { Lightbulb, LightbulbOff, Pointer } from "lucide-react";
 import { useSetRoomValue } from "@/hooks/useSetRoomValue";
 import { useSetFromButton } from "@/hooks/useSetRoomFromButton";
 
-type PowerButtonsProps = {
+type RoomPowerButtonsProps = {
   roomId: number;
 };
 
-const PowerButtons = ({ roomId }: PowerButtonsProps) => {
+const RoomPowerButtons = ({ roomId }: RoomPowerButtonsProps) => {
   const setRoomValue = useSetRoomValue();
   const setRoomFromButton = useSetFromButton();
 
@@ -42,4 +42,4 @@ const PowerButtons = ({ roomId }: PowerButtonsProps) => {
   );
 };
 
-export default PowerButtons;
+export default RoomPowerButtons;
