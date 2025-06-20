@@ -4,6 +4,7 @@ import * as React from "react";
 import { Badge } from "@/components/ui/badge";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface SliderProps {
   value: number[];
@@ -14,6 +15,7 @@ interface SliderProps {
   className?: string;
   staticThumb?: number;
   disabled?: boolean;
+  mode?: string;
 }
 
 export default function Slider({
@@ -25,6 +27,7 @@ export default function Slider({
   className,
   staticThumb,
   disabled,
+  mode,
 }: SliderProps) {
   const handleValueChange = (newValues: number[]) => {
     onValueChange?.(newValues);
@@ -32,6 +35,23 @@ export default function Slider({
 
   const staticThumbPosition =
     staticThumb !== undefined ? ((staticThumb - min) / (max - min)) * 100 : 0;
+
+  const [badge, setBadge] = useState<string>(value.toString());
+
+  useEffect(() => {
+    if (value[0] !== undefined) {
+      console.log(value[0]);
+      switch (mode) {
+        case "3b":
+          setBadge(value[0].toString());
+          break;
+        case "8b":
+          setBadge(value[0].toString(8).toUpperCase());
+        case "16b":
+          setBadge(value[0].toString(16).toUpperCase());
+      }
+    }
+  }, [mode, value]);
 
   return (
     <div
@@ -45,7 +65,7 @@ export default function Slider({
             bottom: "0px",
           }}
         >
-          <span>{value[0]}</span>
+          <span>{badge}</span>
         </Badge>
 
         {staticThumb !== undefined && (
