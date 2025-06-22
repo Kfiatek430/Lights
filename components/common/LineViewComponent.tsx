@@ -10,7 +10,7 @@ const LineViewComponent: FC<LineViewComponentProps> = ({ line, name }) => {
   return (
     <div className="flex flex-row justify-between items-center w-full">
       <p>{name}</p>
-      <div className="flex flex-row gap-2 w-1/2">
+      <div className="flex flex-row gap-2 w-1/2 lg:w-1/3">
         <div className="flex flex-1 flex-col justify-center items-center">
           <p className="text-xs">3b</p>
           <p className="font-bold">{line.value3b}</p>
@@ -21,7 +21,9 @@ const LineViewComponent: FC<LineViewComponentProps> = ({ line, name }) => {
         </div>
         <div className="flex flex-1 flex-col justify-center items-center">
           <p className="text-xs">16b</p>
-          <p className="font-bold">{line.value16b}</p>
+          <p className="font-bold">
+            {line.value16b.toString(16).toUpperCase()}
+          </p>
         </div>
       </div>
     </div>

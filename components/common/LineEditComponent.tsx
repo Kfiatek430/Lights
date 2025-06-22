@@ -49,12 +49,13 @@ const LineEditComponent: FC<LineEditComponentProps> = ({
   };
 
   return (
-    <div className="flex flex-row justify-between items-center w-full">
-      <p>{name}</p>
+    <div className="flex flex-row justify-end items-end w-full relative">
+      <p className="absolute left-0 -bottom-2">{name}</p>
       <Slider
         value={value}
         onValueChange={handleChangeValue}
         max={max}
+        mode={mode}
         className="w-1/2"
       />
     </div>
