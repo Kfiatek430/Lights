@@ -3,6 +3,8 @@ import RoomsContainer from "@/components/common/RoomsContainer";
 import { Separator } from "@/components/ui/separator";
 import { SERVER_URL } from "@/lib/constants";
 import { House } from "@/types";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   // const data: House = {
@@ -144,7 +146,19 @@ export default async function Home() {
   //     },
   //   ],
   // };
-  const res = await fetch(`${SERVER_URL}/house/details?timestamp=0&withInfo=Y`);
+
+  const token = (await cookies()).get("token")?.value;
+  const res = await fetch(
+    `${SERVER_URL}/house/details?timestamp=0&withInfo=Y`,
+    {
+      headers: token ? { Cookie: `token=${token}` } : undefined,
+    },
+  );
+
+  if (res.status === 401) {
+    redirect("/login");
+  }
+
   const data: House = await res.json();
 
   return (
