@@ -52,8 +52,11 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
       )}
     >
       <CardHeader>
-        <CardTitle className="w-full flex justify-between items-center text-xl">
-          {room.info.name} {IsOnline}
+        <CardTitle className="w-full flex justify-between items-start text-xl">
+          <span className="line-clamp-2 min-h-14 leading-tight">
+            {room.info.name}
+          </span>
+          {IsOnline}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col justify-center items-center gap-10">
