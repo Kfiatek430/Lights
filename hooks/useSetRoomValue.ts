@@ -1,4 +1,4 @@
-import { SERVER_URL } from "@/lib/constants";
+import { apiFetch } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
 type setRoomValueProps = {
@@ -7,7 +7,7 @@ type setRoomValueProps = {
 };
 
 async function setRoomValue({ roomId, value }: setRoomValueProps) {
-  await fetch(`${SERVER_URL}/house/room/${roomId}/setValue3b`, {
+  await apiFetch(`/house/room/${roomId}/setValue3b`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ value: value }),
