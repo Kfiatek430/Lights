@@ -1,4 +1,4 @@
-import { SERVER_URL } from "@/lib/constants";
+import { apiFetch } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
 type setLineValueProps = {
@@ -14,8 +14,8 @@ async function setLineValue({
   mode,
   value,
 }: setLineValueProps) {
-  await fetch(
-    `${SERVER_URL}/house/room/${roomId}/line/${lineId}/setValue${mode}`,
+  await apiFetch(
+    `/house/room/${roomId}/line/${lineId}/setValue${mode}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

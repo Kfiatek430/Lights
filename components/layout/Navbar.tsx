@@ -1,7 +1,10 @@
+"use client";
+
 import ThemeSwitcher from "@/components/layout/ThemeSwitcher";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "../ui/button";
-import { MenuIcon, X } from "lucide-react";
+import { LogOutIcon, MenuIcon, X } from "lucide-react";
 import {
   Sheet,
   SheetClose,
@@ -10,6 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { apiFetch } from "@/lib/api";
 
 interface LinkType {
   name: string;
@@ -36,6 +40,14 @@ const links: LinkType[] = [
 ];
 
 const Navbar = () => {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await apiFetch("/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  }
+
   return (
     <nav className="h-16 flex justify-center bg-sidebar shadow-sm items-center w-full px-4 sticky top-0 z-50">
       <h1 className="font-bold absolute left-5 text-xl md:text-2xl text-sidebar-foreground">
@@ -51,6 +63,15 @@ const Navbar = () => {
         ))}
       </div>
       <div className="flex gap-3 absolute right-5">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleLogout}
+          title="Wyloguj"
+        >
+          <LogOutIcon />
+          <span className="sr-only">Wyloguj</span>
+        </Button>
         <ThemeSwitcher className="cursor-pointer" />
         <Sheet>
           <SheetTrigger asChild>
