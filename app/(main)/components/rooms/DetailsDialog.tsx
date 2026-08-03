@@ -9,6 +9,7 @@ import {
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import Slider from "@/components/ui/slider";
 import { FC } from "react";
 import React from "react";
@@ -35,7 +36,10 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
         className="max-h-[95%] flex flex-col overflow-y-auto max-w-[95%] lg:max-w-5xl"
       >
         <DialogHeader className="-mt-3 -mx-6 border-b pb-3 px-6 flex flex-row justify-between items-center">
-          <DialogTitle className="text-xl">{room.info.name}</DialogTitle>
+          <div className="flex flex-row items-center gap-2">
+            <DialogTitle className="text-xl">{room.info.name}</DialogTitle>
+            <Badge variant="secondary">{PATTERNS[room.pattern]}</Badge>
+          </div>
           <DialogDescription className="sr-only">
             Szczegóły pokoju {room.info.name}
           </DialogDescription>
@@ -52,27 +56,20 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
           </DialogPrimitive.Close>
         </DialogHeader>
         <div className="flex flex-col lg:flex-row justify-center items-start gap-4 lg:gap-12 px-6">
-          <div className="w-full lg:w-1/3 min-h-full flex flex-col gap-4 lg:gap-8">
+          <div className="w-full lg:w-1/3 min-h-full flex flex-col gap-4">
             <RoomPowerButtons roomId={room.id} />
-            <Separator />
-            <MotionSensors room={room} variant="full" />
-            <Separator />
+            <MotionSensors room={room} variant="compact" />
             <Slider
               value={[room.maxValue3b]}
               max={7}
               staticThumb={room.minValue3b}
               disabled={true}
             />
-            <Separator />
-            <div className="w-full flex flex-row gap-2">
-              <h4 className="font-semibold text-lg">Wzorzec oświetlenia:</h4>
-              <p className="text-lg">{PATTERNS[room.pattern]}</p>
-            </div>
           </div>
 
           <Separator className="lg:hidden" />
 
-          <div className="w-full lg:w-2/3 flex flex-col justify-center items-center gap-3 lg:gap-4">
+          <div className="w-full lg:w-1/2 flex flex-col justify-center items-center gap-2">
             {room.lines.map((line, index) => (
               <React.Fragment key={index}>
                 <LineViewComponent

@@ -16,7 +16,7 @@ const RoomPowerButtons = ({ roomId }: RoomPowerButtonsProps) => {
     <div className="w-full flex flex-row justify-center gap-3 text-xs">
       <Button
         variant="destructive"
-        className="flex-1 h-fit flex flex-col gap-2"
+        className="flex-1 min-w-0 h-fit flex flex-col gap-2"
         onClick={() => setRoomValue.mutate({ roomId: roomId, value: 0 })}
       >
         <LightbulbOff />
@@ -24,7 +24,7 @@ const RoomPowerButtons = ({ roomId }: RoomPowerButtonsProps) => {
       </Button>
       <Button
         variant="blue"
-        className="flex-1 h-fit flex flex-col gap-2"
+        className="flex-1 min-w-0 h-fit flex flex-col gap-2"
         onClick={() => setRoomFromButton.mutate({ roomId: roomId })}
       >
         <Pointer />
@@ -32,7 +32,7 @@ const RoomPowerButtons = ({ roomId }: RoomPowerButtonsProps) => {
       </Button>
       <Button
         variant="success"
-        className="flex-1 h-fit flex flex-col gap-2"
+        className="flex-1 min-w-0 h-fit flex flex-col gap-2"
         onClick={() => setRoomValue.mutate({ roomId: roomId, value: 6 })}
       >
         <Lightbulb />
