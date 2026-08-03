@@ -13,8 +13,14 @@ export async function fetchHouseServer(): Promise<House | null> {
     });
     return data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 401) {
-      return null;
+    if (axios.isAxiosError(error)) {
+      console.error("fetchHouseServer failed", {
+        status: error.response?.status,
+        data: error.response?.data,
+        url: error.config?.url,
+        hadToken: !!token,
+      });
+      if (error.response?.status === 401) return null;
     }
     throw error;
   }
