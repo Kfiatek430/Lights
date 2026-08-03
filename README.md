@@ -1,6 +1,8 @@
 # Lights - Smart Home Lighting Control System
 
-A modern web application for controlling smart home lighting system built with Next.js, TypeScript, and real-time WebSocket communication.
+A modern web application for controlling smart home lighting system built with Next.js, TypeScript and real-time WebSocket communication.
+
+<img width="1917" height="940" alt="image" src="https://github.com/user-attachments/assets/fbe9e910-a589-48e2-8a1a-8bddb4533e23" />
 
 ## 🚀 Features
 
