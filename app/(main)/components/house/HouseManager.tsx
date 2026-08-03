@@ -1,35 +1,28 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import HousePowerButtons from "./HousePowerButtons";
 import Slider from "@/components/ui/slider";
 import { House } from "@/types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { BatteryWarning, Cable, Moon, Sun } from "lucide-react";
 import { useSetHouseValue } from "@/hooks/useSetHouseValue";
+import { useSyncedState } from "@/hooks/useSyncedState";
 
 type HouseManagerProps = {
   house: House;
 };
 
 const HouseManager: FC<HouseManagerProps> = ({ house }) => {
-  const [maxValue3b, setMaxValue3b] = useState([house.maxValue3b]);
-  const [minValue3b, setMinValue3b] = useState(house.minValue3b);
+  const [maxValue3b, setMaxValue3b] = useSyncedState(house.maxValue3b);
+  const [minValue3b, setMinValue3b] = useSyncedState(house.minValue3b);
   const setHouseValue = useSetHouseValue();
 
   const handleMainValueChange = (newValues: number[]) => {
     setHouseValue.mutate({ value: newValues[0] });
-    setMaxValue3b(newValues);
+    setMaxValue3b(newValues[0]);
     setMinValue3b(newValues[0]);
   };
-
-  useEffect(() => {
-    setMinValue3b(house.minValue3b);
-  }, [house.minValue3b]);
-
-  useEffect(() => {
-    setMaxValue3b([house.maxValue3b]);
-  }, [house.maxValue3b]);
 
   return (
     <Card className="w-full gap-3 py-4">
@@ -63,7 +56,7 @@ const HouseManager: FC<HouseManagerProps> = ({ house }) => {
       <CardContent className="flex flex-col gap-3">
         <HousePowerButtons />
         <Slider
-          value={maxValue3b}
+          value={[maxValue3b]}
           onValueChange={handleMainValueChange}
           max={7}
           staticThumb={minValue3b}
