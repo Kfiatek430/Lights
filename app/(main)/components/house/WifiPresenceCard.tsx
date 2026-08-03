@@ -14,7 +14,10 @@ const WifiPresenceCard: FC<WifiPresenceCardProps> = ({ house }) => {
   if (devices.length === 0) return null;
 
   const sorted = devices
-    .map((device, idx) => ({ device, online: house.wifiStatus?.[idx] ?? false }))
+    .map((device, idx) => ({
+      device,
+      online: house.wifiStatus?.[idx] ?? false,
+    }))
     .sort((a, b) => Number(b.online) - Number(a.online));
 
   return (

@@ -53,7 +53,7 @@ const EditDialog: FC<EditDialogProps> = ({ room }) => {
   const [minValue3b, setMinValue3b] = useState(room.minValue3b);
   const [mode, setMode] = useState<Mode>("3b");
   const [selectedPattern, setSelectedPattern] = useState<Pattern>(
-    PATTERNS[room.pattern]
+    PATTERNS[room.pattern],
   );
 
   const setRoomValue = useSetRoomValue();
@@ -104,7 +104,7 @@ const EditDialog: FC<EditDialogProps> = ({ room }) => {
                 variant: "outline",
                 size: "icon",
               }),
-              "cursor-pointer"
+              "cursor-pointer",
             )}
           >
             <X />

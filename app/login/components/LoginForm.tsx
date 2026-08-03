@@ -1,61 +1,61 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useMutation } from "@tanstack/react-query"
-import { toast } from "sonner"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-import { cn } from "@/lib/utils"
-import { apiClient } from "@/lib/api"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { apiClient } from "@/lib/api";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/card";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter()
-  const [login, setLogin] = useState("")
-  const [password, setPassword] = useState("")
+  const router = useRouter();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginMutation = useMutation({
     mutationFn: async ({
       login,
       password,
     }: {
-      login: string
-      password: string
+      login: string;
+      password: string;
     }) => {
       const { data } = await apiClient.post<{
-        success: boolean
-        message?: string
-      }>("/auth/login", new URLSearchParams({ login, password }))
-      return data
+        success: boolean;
+        message?: string;
+      }>("/auth/login", new URLSearchParams({ login, password }));
+      return data;
     },
     onSuccess: (data) => {
       if (data.success) {
-        router.push("/")
-        router.refresh()
+        router.push("/");
+        router.refresh();
       } else {
-        toast.error(data.message || "Nieprawidłowy login lub hasło")
+        toast.error(data.message || "Nieprawidłowy login lub hasło");
       }
     },
     onError: () => {
-      toast.error("Wystąpił błąd podczas logowania")
+      toast.error("Wystąpił błąd podczas logowania");
     },
-  })
+  });
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    loginMutation.mutate({ login, password })
+    event.preventDefault();
+    loginMutation.mutate({ login, password });
   }
 
   return (
@@ -100,5 +100,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

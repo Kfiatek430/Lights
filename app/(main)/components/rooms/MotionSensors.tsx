@@ -11,7 +11,10 @@ interface MotionSensorsProps {
   variant?: "compact" | "full";
 }
 
-const MotionSensors: FC<MotionSensorsProps> = ({ room, variant = "compact" }) => {
+const MotionSensors: FC<MotionSensorsProps> = ({
+  room,
+  variant = "compact",
+}) => {
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -34,12 +37,10 @@ const MotionSensors: FC<MotionSensorsProps> = ({ room, variant = "compact" }) =>
       {sensors.map((sensor, idx) => {
         const elapsedSeconds = (now - sensor.changeTimestamp) / 1000;
         return (
-          <div
-            key={sensor.id}
-            className="flex flex-col items-center gap-1"
-          >
+          <div key={sensor.id} className="flex flex-col items-center gap-1">
             <span className="text-xs opacity-70 h-4 leading-4">
-              {names[idx] ?? (sensors.length > 1 ? `Czujnik ${idx + 1}` : "Główny")}
+              {names[idx] ??
+                (sensors.length > 1 ? `Czujnik ${idx + 1}` : "Główny")}
             </span>
             <Activity
               className={cn(

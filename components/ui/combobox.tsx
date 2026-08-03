@@ -64,12 +64,12 @@ export function Combobox<T extends string>({
                   value={it.value}
                   onSelect={(currentValue) => {
                     const selectedValue = values.find(
-                      (val) => val.value === currentValue
+                      (val) => val.value === currentValue,
                     )?.value;
                     setValue(
                       selectedValue === value
                         ? values[0]?.value
-                        : selectedValue!
+                        : selectedValue!,
                     );
                     setOpen(false);
                   }}
@@ -78,7 +78,7 @@ export function Combobox<T extends string>({
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === it.value ? "opacity-100" : "opacity-0"
+                      value === it.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>

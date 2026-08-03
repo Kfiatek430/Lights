@@ -94,8 +94,8 @@ const HouseDashboard = () => {
       }
 
       const style = getComputedStyle(el);
-      const rowSizes = style
-        .gridTemplateRows.split(" ")
+      const rowSizes = style.gridTemplateRows
+        .split(" ")
         .map((v) => parseFloat(v))
         .filter((v) => !isNaN(v));
       const rowGap = parseFloat(style.rowGap || "0") || 0;

@@ -45,7 +45,7 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
                 variant: "outline",
                 size: "icon",
               }),
-              "cursor-pointer"
+              "cursor-pointer",
             )}
           >
             <X />
