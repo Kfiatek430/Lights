@@ -19,7 +19,7 @@ const AlarmCard: FC<AlarmCardProps> = ({ house }) => {
   const stateBadge =
     house.alarmState === "ARMED_ACTIVE" ? (
       <Badge className="bg-red-600/10 dark:bg-red-600/20 text-red-500 shadow-none rounded-full">
-        Alarm!
+        Alarm
       </Badge>
     ) : house.alarmState === "ARMED_IDLE" ? (
       <Badge className="bg-amber-500/10 dark:bg-amber-500/20 text-amber-500 shadow-none rounded-full">
