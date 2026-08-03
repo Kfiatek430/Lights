@@ -18,21 +18,39 @@ export function mergeObjects<T extends object>(source: T, target: T): T {
   const src = source as Record<string, unknown>;
   for (const key in src) {
     if (key === "rooms") {
+      const rooms = [...(merged[key] as Room[])];
       (src[key] as Room[]).forEach((room) => {
-        const rooms = merged[key] as Room[];
-        rooms[room.id] = mergeObjects(
+        const index = rooms.findIndex((r) => r.id === room.id);
+        const mergedRoom = mergeObjects(
           room as unknown as Record<string, unknown>,
-          rooms[room.id] as unknown as Record<string, unknown>,
+          (index === -1
+            ? {}
+            : (rooms[index] as unknown as Record<string, unknown>)),
         ) as unknown as Room;
+        if (index === -1) {
+          rooms.push(mergedRoom);
+        } else {
+          rooms[index] = mergedRoom;
+        }
       });
+      merged[key] = rooms;
     } else if (key === "lines") {
+      const lines = [...(merged[key] as Line[])];
       (src[key] as Line[]).forEach((line) => {
-        const lines = merged[key] as Line[];
-        lines[line.id] = mergeObjects(
+        const index = lines.findIndex((l) => l.id === line.id);
+        const mergedLine = mergeObjects(
           line as unknown as Record<string, unknown>,
-          lines[line.id] as unknown as Record<string, unknown>,
+          (index === -1
+            ? {}
+            : (lines[index] as unknown as Record<string, unknown>)),
         ) as unknown as Line;
+        if (index === -1) {
+          lines.push(mergedLine);
+        } else {
+          lines[index] = mergedLine;
+        }
       });
+      merged[key] = lines;
     } else {
       merged[key] = src[key];
     }
