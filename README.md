@@ -10,37 +10,6 @@ A modern web application for controlling smart home lighting system built with N
 - **Motion Detection**: Monitor and display motion sensor status
 - **Brightness Control**: Adjustable brightness levels
 
-## 📦 Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/Kfiatek430/Lights.git
-   cd Lights
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   pnpm install
-   ```
-
-3. **Set up environment variables**
-   Create a `.env.local` file in the root directory:
-
-   ```env
-   NEXT_PUBLIC_SERVER_URL=backend_server_url
-   ```
-
-4. **Run the development server**
-
-   ```bash
-   pnpm dev
-   ```
-
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
 ## 🏗️ Project Structure
 
 ```

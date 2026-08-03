@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Lightbulb, LightbulbOff, Pointer, X } from "lucide-react";
+import { X } from "lucide-react";
 import Slider from "@/components/ui/slider";
 import { FC } from "react";
 import React from "react";
@@ -45,7 +45,7 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
                 variant: "outline",
                 size: "icon",
               }),
-              "cursor-pointer"
+              "cursor-pointer",
             )}
           >
             <X />
