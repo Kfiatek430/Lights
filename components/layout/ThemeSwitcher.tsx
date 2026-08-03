@@ -1,26 +1,36 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
+import { useThemeMode, ThemeMode } from "@/hooks/useThemeMode";
+import { Sun, Moon, SunMoon } from "lucide-react";
+
+const NEXT_MODE: Record<ThemeMode, ThemeMode> = {
+  light: "dark",
+  dark: "auto",
+  auto: "light",
+};
+
+const MODE_LABEL: Record<ThemeMode, string> = {
+  light: "Jasny",
+  dark: "Ciemny",
+  auto: "Automatyczny",
+};
 
 const ThemeSwitcher = ({ className }: { className: string }) => {
-  const { theme, setTheme } = useTheme();
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+  const { mode, setMode } = useThemeMode();
 
   return (
     <Button
       variant="outline"
       size="icon"
-      onClick={toggleTheme}
+      onClick={() => setMode(NEXT_MODE[mode])}
       className={className}
+      title={`Motyw: ${MODE_LABEL[mode]}`}
     >
-      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
+      {mode === "light" && <Sun className="h-4 w-4" />}
+      {mode === "dark" && <Moon className="h-4 w-4" />}
+      {mode === "auto" && <SunMoon className="h-4 w-4" />}
+      <span className="sr-only">Przełącz motyw ({MODE_LABEL[mode]})</span>
     </Button>
   );
 };
