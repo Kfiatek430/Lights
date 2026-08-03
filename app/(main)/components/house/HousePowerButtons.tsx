@@ -1,21 +1,21 @@
 "use client";
 
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Lightbulb, LightbulbOff, Pointer } from "lucide-react";
-import { useSetRoomValue } from "@/hooks/useSetRoomValue";
-import { useSetFromButton } from "@/hooks/useSetRoomFromButton";
+import { useSetHouseValue } from "@/hooks/useSetHouseValue";
+import { useSetHouseFromButton } from "@/hooks/useSetHouseFromButton";
 
 const HousePowerButtons = () => {
-  const setRoomValue = useSetRoomValue();
-  const setRoomFromButton = useSetFromButton();
+  const setHouseValue = useSetHouseValue();
+  const setHouseFromButton = useSetHouseFromButton();
 
   return (
     <div className="w-full flex flex-row justify-center gap-3 text-xs">
       <Button
         variant="destructive"
         className="flex-1 h-fit flex flex-col gap-2"
-        // onClick={() => setRoomValue.mutate({ value: 0 })}
+        onClick={() => setHouseValue.mutate({ value: 0 })}
       >
         <LightbulbOff />
         <p>Wyłącz</p>
@@ -23,7 +23,7 @@ const HousePowerButtons = () => {
       <Button
         variant="blue"
         className="flex-1 h-fit flex flex-col gap-2"
-        // onClick={() => setRoomFromButton()}
+        onClick={() => setHouseFromButton.mutate()}
       >
         <Pointer />
         <p>Przyciski</p>
@@ -31,7 +31,7 @@ const HousePowerButtons = () => {
       <Button
         variant="success"
         className="flex-1 h-fit flex flex-col gap-2"
-        // onClick={() => setRoomValue.mutate({ value: 6 })}
+        onClick={() => setHouseValue.mutate({ value: 6 })}
       >
         <Lightbulb />
         Włącz

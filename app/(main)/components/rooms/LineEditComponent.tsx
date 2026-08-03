@@ -1,6 +1,6 @@
 import { Line, Mode } from "@/types";
 import React, { FC, useEffect, useState } from "react";
-import Slider from "../ui/slider";
+import Slider from "@/components/ui/slider";
 import { useSetLineValue } from "@/hooks/useSetLineValue";
 
 interface LineEditComponentProps {
