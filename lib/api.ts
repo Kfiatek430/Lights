@@ -1,14 +1,27 @@
+import axios from "axios";
 import { SERVER_URL } from "@/lib/constants";
+import { recordActionSent } from "@/lib/actionClock";
 
-export async function apiFetch(path: string, options: RequestInit = {}) {
-  const response = await fetch(`${SERVER_URL}${path}`, {
-    ...options,
-    credentials: "include",
-  });
+export const apiClient = axios.create({
+  baseURL: SERVER_URL,
+  withCredentials: true,
+});
 
-  if (response.status === 401 && typeof window !== "undefined") {
-    window.location.href = "/login";
-  }
+apiClient.interceptors.request.use((config) => {
+  if (config.method === "post") recordActionSent();
+  return config;
+});
 
-  return response;
-}
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (
+      axios.isAxiosError(error) &&
+      error.response?.status === 401 &&
+      typeof window !== "undefined"
+    ) {
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  },
+);

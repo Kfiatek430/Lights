@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/api";
+import { apiClient } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
 type setRoomValueProps = {
@@ -7,11 +7,7 @@ type setRoomValueProps = {
 };
 
 async function setRoomValue({ roomId, value }: setRoomValueProps) {
-  await apiFetch(`/house/room/${roomId}/setValue3b`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ value: value }),
-  });
+  await apiClient.post(`/house/room/${roomId}/setValue3b`, { value });
 }
 
 export function useSetRoomValue() {
