@@ -115,6 +115,20 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@keyframes alarm-pulse {
+  0%,
+  100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--alarm-pulse-color, oklch(0.577 0.245 27.325 / 25%));
+  }
+}
+
+.animate-alarm-pulse {
+  animation: alarm-pulse 1s ease-in-out infinite;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -126,22 +126,27 @@ const HouseDashboard = () => {
   if (!house) return null;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 w-full items-start">
-      <div
-        style={{ height: sidebarHeight }}
-        className="w-full lg:w-80 xl:w-96 flex-shrink-0 flex flex-col justify-between gap-3 overflow-y-auto"
-      >
-        <HouseManager house={house} />
-        <AlarmCard house={house} />
-        <WifiPresenceCard house={house} />
-        <StatusCard house={house} stats={stats} />
+    <>
+      {house.alarmState === "ARMED_ACTIVE" && (
+        <div className="fixed inset-0 z-[100] pointer-events-none animate-alarm-pulse" />
+      )}
+      <div className="flex flex-col lg:flex-row gap-6 w-full items-start">
+        <div
+          style={{ height: sidebarHeight }}
+          className="w-full lg:w-80 xl:w-96 flex-shrink-0 flex flex-col justify-between gap-3 overflow-y-auto"
+        >
+          <HouseManager house={house} />
+          <AlarmCard house={house} />
+          <WifiPresenceCard house={house} />
+          <StatusCard house={house} stats={stats} />
+        </div>
+        <div
+          style={{ height: sidebarHeight }}
+          className="hidden lg:block w-px bg-border"
+        />
+        <RoomsContainer rooms={house.rooms} ref={roomsGridRef} />
       </div>
-      <div
-        style={{ height: sidebarHeight }}
-        className="hidden lg:block w-px bg-border"
-      />
-      <RoomsContainer rooms={house.rooms} ref={roomsGridRef} />
-    </div>
+    </>
   );
 };
 
