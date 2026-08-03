@@ -1,7 +1,7 @@
 "use client";
 
 import { Room } from "@/types";
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import RoomPowerButtons from "./RoomPowerButtons";
 import MotionSensors from "./MotionSensors";
 import { useSetRoomValue } from "@/hooks/useSetRoomValue";
+import { useSyncedState } from "@/hooks/useSyncedState";
 
 interface RoomCardProps {
   room: Room;
@@ -30,39 +31,39 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
   }, [room.online]);
 
   const anyMotionActive = room.motionSensors?.some((s) => s.active) ?? false;
-  const [displayMotion, setDisplayMotion] = useState(anyMotionActive);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [maxValue3b, setMaxValue3b] = useState([room.maxValue3b]);
-  const [minValue3b, setMinValue3b] = useState(room.minValue3b);
+  const [prevAnyMotionActive, setPrevAnyMotionActive] =
+    useState(anyMotionActive);
+  const [cooldownActive, setCooldownActive] = useState(anyMotionActive);
+  if (anyMotionActive !== prevAnyMotionActive) {
+    setPrevAnyMotionActive(anyMotionActive);
+    if (anyMotionActive) {
+      setCooldownActive(true);
+    }
+  }
+  const displayMotion = anyMotionActive || cooldownActive;
+
+  const [maxValue3b, setMaxValue3b] = useSyncedState(room.maxValue3b);
+  const [minValue3b, setMinValue3b] = useSyncedState(room.minValue3b);
   const setRoomValue = useSetRoomValue();
 
   const handleMainValueChange = (newValues: number[]) => {
     setRoomValue.mutate({ roomId: room.id, value: newValues[0] });
-    setMaxValue3b(newValues);
+    setMaxValue3b(newValues[0]);
     setMinValue3b(newValues[0]);
   };
 
   useEffect(() => {
-    setMinValue3b(room.minValue3b);
-  }, [room.minValue3b]);
+    if (!anyMotionActive) return;
 
-  useEffect(() => {
-    setMaxValue3b([room.maxValue3b]);
-  }, [room.maxValue3b]);
-
-  useEffect(() => {
-    if (anyMotionActive) {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      setDisplayMotion(true);
-
-      timeoutRef.current = setTimeout(() => {
-        setDisplayMotion(false);
-      }, 60000);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
+
+    timeoutRef.current = setTimeout(() => {
+      setCooldownActive(false);
+    }, 60000);
   }, [anyMotionActive]);
 
   return (
@@ -84,7 +85,7 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
         <RoomPowerButtons roomId={room.id} />
         <MotionSensors room={room} variant="compact" />
         <Slider
-          value={maxValue3b}
+          value={[maxValue3b]}
           onValueChange={handleMainValueChange}
           max={7}
           staticThumb={minValue3b}

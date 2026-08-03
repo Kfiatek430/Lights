@@ -12,7 +12,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { X } from "lucide-react";
 import Slider from "@/components/ui/slider";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import React from "react";
 import { Room, Mode, Pattern } from "@/types";
 import { Separator } from "@/components/ui/separator";
@@ -22,6 +22,7 @@ import { Combobox } from "@/components/ui/combobox";
 import RoomPowerButtons from "./RoomPowerButtons";
 import { useSetRoomValue } from "@/hooks/useSetRoomValue";
 import { useSetRoomPattern } from "@/hooks/useSetRoomPattern";
+import { useSyncedState } from "@/hooks/useSyncedState";
 import { PATTERNS } from "@/lib/constants";
 
 interface EditDialogProps {
@@ -49,10 +50,10 @@ const MODE_OPTIONS = [
 ] as const;
 
 const EditDialog: FC<EditDialogProps> = ({ room }) => {
-  const [maxValue3b, setMaxValue3b] = useState([room.maxValue3b]);
-  const [minValue3b, setMinValue3b] = useState(room.minValue3b);
+  const [maxValue3b, setMaxValue3b] = useSyncedState(room.maxValue3b);
+  const [minValue3b, setMinValue3b] = useSyncedState(room.minValue3b);
   const [mode, setMode] = useState<Mode>("3b");
-  const [selectedPattern, setSelectedPattern] = useState<Pattern>(
+  const [selectedPattern, setSelectedPattern] = useSyncedState(
     PATTERNS[room.pattern],
   );
 
@@ -61,7 +62,7 @@ const EditDialog: FC<EditDialogProps> = ({ room }) => {
 
   const handleMainValueChange = (newValues: number[]) => {
     setRoomValue.mutate({ roomId: room.id, value: newValues[0] });
-    setMaxValue3b(newValues);
+    setMaxValue3b(newValues[0]);
     setMinValue3b(newValues[0]);
   };
 
@@ -70,19 +71,6 @@ const EditDialog: FC<EditDialogProps> = ({ room }) => {
     const patternIndex = PATTERNS.indexOf(newPattern);
     setRoomPattern.mutate({ roomId: room.id, patternId: patternIndex });
   };
-
-  useEffect(() => {
-    const roomPattern = PATTERNS[room.pattern];
-    setSelectedPattern(roomPattern);
-  }, [room.pattern]);
-
-  useEffect(() => {
-    setMinValue3b(room.minValue3b);
-  }, [room.minValue3b]);
-
-  useEffect(() => {
-    setMaxValue3b([room.maxValue3b]);
-  }, [room.maxValue3b]);
 
   return (
     <Dialog>
@@ -115,7 +103,7 @@ const EditDialog: FC<EditDialogProps> = ({ room }) => {
             <RoomPowerButtons roomId={room.id} />
             <Separator />
             <Slider
-              value={maxValue3b}
+              value={[maxValue3b]}
               onValueChange={handleMainValueChange}
               max={7}
               staticThumb={minValue3b}
