@@ -2,6 +2,7 @@
 
 import { Client } from "@stomp/stompjs";
 import { useEffect, useRef } from "react";
+import { WS_URL } from "@/lib/constants";
 
 export type HouseWsEvent =
   | { type: "connected" }
@@ -22,7 +23,7 @@ export function useHouseWebSocket(
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: `${process.env.NEXT_PUBLIC_SERVER_URL}/houseWS`,
+      brokerURL: `${WS_URL}/houseWS`,
       reconnectDelay: 5000,
       onConnect: () => {
         onEventRef.current?.({ type: "connected" });
