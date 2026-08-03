@@ -13,21 +13,30 @@ export function formatElapsed(seconds: number): string {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
-export function mergeObjects(source: any, target: any) {
-  const merged = { ...target };
-  for (const key in source) {
+export function mergeObjects<T extends object>(source: T, target: T): T {
+  const merged = { ...target } as Record<string, unknown>;
+  const src = source as Record<string, unknown>;
+  for (const key in src) {
     if (key === "rooms") {
-      source[key].forEach((room: Room) => {
-        merged[key][room.id] = mergeObjects(room, merged[key][room.id]);
+      (src[key] as Room[]).forEach((room) => {
+        const rooms = merged[key] as Room[];
+        rooms[room.id] = mergeObjects(
+          room as unknown as Record<string, unknown>,
+          rooms[room.id] as unknown as Record<string, unknown>,
+        ) as unknown as Room;
       });
     } else if (key === "lines") {
-      source[key].forEach((line: Line) => {
-        merged[key][line.id] = mergeObjects(line, merged[key][line.id]);
+      (src[key] as Line[]).forEach((line) => {
+        const lines = merged[key] as Line[];
+        lines[line.id] = mergeObjects(
+          line as unknown as Record<string, unknown>,
+          lines[line.id] as unknown as Record<string, unknown>,
+        ) as unknown as Line;
       });
     } else {
-      merged[key] = source[key];
+      merged[key] = src[key];
     }
   }
 
-  return merged;
+  return merged as T;
 }
