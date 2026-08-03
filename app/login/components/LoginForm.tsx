@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 import { cn } from "@/lib/utils"
-import { SERVER_URL } from "@/lib/constants"
+import { apiClient } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -24,32 +25,37 @@ export function LoginForm({
   const router = useRouter()
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setLoading(true)
-
-    try {
-      const response = await fetch(`${SERVER_URL}/auth/login`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ login, password }),
-      })
-      const data = await response.json()
-
+  const loginMutation = useMutation({
+    mutationFn: async ({
+      login,
+      password,
+    }: {
+      login: string
+      password: string
+    }) => {
+      const { data } = await apiClient.post<{
+        success: boolean
+        message?: string
+      }>("/auth/login", new URLSearchParams({ login, password }))
+      return data
+    },
+    onSuccess: (data) => {
       if (data.success) {
         router.push("/")
         router.refresh()
       } else {
         toast.error(data.message || "Nieprawidłowy login lub hasło")
       }
-    } catch {
+    },
+    onError: () => {
       toast.error("Wystąpił błąd podczas logowania")
-    } finally {
-      setLoading(false)
-    }
+    },
+  })
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    loginMutation.mutate({ login, password })
   }
 
   return (
@@ -85,8 +91,8 @@ export function LoginForm({
                 />
               </Field>
               <Field>
-                <Button type="submit" disabled={loading}>
-                  {loading ? "Logowanie..." : "Zaloguj"}
+                <Button type="submit" disabled={loginMutation.isPending}>
+                  {loginMutation.isPending ? "Logowanie..." : "Zaloguj"}
                 </Button>
               </Field>
             </FieldGroup>

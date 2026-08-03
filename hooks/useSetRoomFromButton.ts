@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/api";
+import { apiClient } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
 type setRoomFromButtonProps = {
@@ -6,11 +6,7 @@ type setRoomFromButtonProps = {
 };
 
 async function setRoomFromButton({ roomId }: setRoomFromButtonProps) {
-  await apiFetch(`/house/room/${roomId}/setFromBut`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({}),
-  });
+  await apiClient.post(`/house/room/${roomId}/setFromBut`, {});
 }
 
 export function useSetFromButton() {

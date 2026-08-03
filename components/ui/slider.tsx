@@ -40,7 +40,6 @@ export default function Slider({
 
   useEffect(() => {
     if (value[0] !== undefined) {
-      console.log(value[0]);
       switch (mode) {
         case "3b":
           setBadge(value[0].toString());
@@ -97,7 +96,7 @@ export default function Slider({
         <div
           className={cn(
             "absolute block h-4 w-4 rounded-full border border-primary/50 bg-background shadow pointer-events-auto z-10",
-            disabled ? "" : "cursor-pointer"
+            disabled ? "" : "cursor-pointer",
           )}
           style={{
             left: `calc(${(value[0] / max) * 100}% - 9px)`,

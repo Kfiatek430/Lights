@@ -11,14 +11,14 @@ import {
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { X } from "lucide-react";
-import Slider from "../ui/slider";
+import Slider from "@/components/ui/slider";
 import { FC, useEffect, useState } from "react";
 import React from "react";
 import { Room, Mode, Pattern } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import LineEditComponent from "./LineEditComponent";
-import { Combobox } from "../ui/combobox";
+import { Combobox } from "@/components/ui/combobox";
 import RoomPowerButtons from "./RoomPowerButtons";
 import { useSetRoomValue } from "@/hooks/useSetRoomValue";
 import { useSetRoomPattern } from "@/hooks/useSetRoomPattern";

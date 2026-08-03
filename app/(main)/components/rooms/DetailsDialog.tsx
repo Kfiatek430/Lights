@@ -9,7 +9,7 @@ import {
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Lightbulb, LightbulbOff, Pointer, X } from "lucide-react";
-import Slider from "../ui/slider";
+import Slider from "@/components/ui/slider";
 import { FC } from "react";
 import React from "react";
 import { Room } from "@/types";
@@ -18,6 +18,7 @@ import LineViewComponent from "./LineViewComponent";
 import { cn } from "@/lib/utils";
 import { PATTERNS } from "@/lib/constants";
 import RoomPowerButtons from "./RoomPowerButtons";
+import MotionSensors from "./MotionSensors";
 
 interface DetailsDialogProps {
   room: Room;
@@ -53,6 +54,8 @@ const DetailsDialog: FC<DetailsDialogProps> = ({ room }) => {
         <div className="flex flex-col lg:flex-row justify-center items-start gap-4 lg:gap-12 px-6">
           <div className="w-full lg:w-1/3 min-h-full flex flex-col gap-4 lg:gap-8">
             <RoomPowerButtons roomId={room.id} />
+            <Separator />
+            <MotionSensors room={room} variant="full" />
             <Separator />
             <Slider
               value={[room.maxValue3b]}

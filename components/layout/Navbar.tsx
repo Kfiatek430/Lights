@@ -3,6 +3,7 @@
 import ThemeSwitcher from "@/components/layout/ThemeSwitcher";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 import { Button, buttonVariants } from "../ui/button";
 import { LogOutIcon, MenuIcon, X } from "lucide-react";
 import {
@@ -13,7 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { apiFetch } from "@/lib/api";
+import { apiClient } from "@/lib/api";
 
 interface LinkType {
   name: string;
@@ -42,15 +43,17 @@ const links: LinkType[] = [
 const Navbar = () => {
   const router = useRouter();
 
-  async function handleLogout() {
-    await apiFetch("/auth/logout", { method: "POST" });
-    router.push("/login");
-    router.refresh();
-  }
+  const logoutMutation = useMutation({
+    mutationFn: () => apiClient.post("/auth/logout"),
+    onSuccess: () => {
+      router.push("/login");
+      router.refresh();
+    },
+  });
 
   return (
-    <nav className="h-16 flex justify-center bg-sidebar shadow-sm items-center w-full px-4 sticky top-0 z-50">
-      <h1 className="font-bold absolute left-5 text-xl md:text-2xl text-sidebar-foreground">
+    <nav className="h-16 flex justify-between items-center bg-sidebar shadow-sm w-full px-3 sm:px-5 sticky top-0 z-50 gap-2 py-3">
+      <h1 className="font-bold text-xl md:text-2xl text-sidebar-foreground shrink-0 truncate">
         Wiosenna
       </h1>
       <div className="hidden md:flex">
@@ -62,11 +65,12 @@ const Navbar = () => {
           </Button>
         ))}
       </div>
-      <div className="flex gap-3 absolute right-5">
+      <div className="flex gap-2 sm:gap-3 shrink-0">
         <Button
           variant="outline"
           size="icon"
-          onClick={handleLogout}
+          onClick={() => logoutMutation.mutate()}
+          disabled={logoutMutation.isPending}
           title="Wyloguj"
         >
           <LogOutIcon />

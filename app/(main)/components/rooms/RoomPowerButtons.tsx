@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Lightbulb, LightbulbOff, Pointer } from "lucide-react";
 import { useSetRoomValue } from "@/hooks/useSetRoomValue";
 import { useSetFromButton } from "@/hooks/useSetRoomFromButton";
