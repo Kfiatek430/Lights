@@ -74,11 +74,11 @@ const RoomCard: FC<RoomCardProps> = ({ room }) => {
       )}
     >
       <CardHeader>
-        <div className="w-full flex flex-row justify-between items-center gap-3">
-          <CardTitle className="text-xl">
+        <div className="w-full flex flex-row justify-between items-start gap-3">
+          <CardTitle className="text-xl min-h-[2.5em] flex items-start">
             <span className="line-clamp-2 leading-tight">{room.info.name}</span>
           </CardTitle>
-          {IsOnline}
+          <span>{IsOnline}</span>
         </div>
       </CardHeader>
       <CardContent className="flex flex-col justify-center items-center gap-4">
